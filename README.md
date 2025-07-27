@@ -9,6 +9,7 @@ An intelligent travel planning system built with Google's Agent Development Kit 
 - **Structured Output**: Validates and organizes results using Pydantic schemas
 - **Price-Categorized Recommendations**: Budget, mid-range, and luxury options for all categories
 - **Intelligent Summarization**: Creates concise, actionable travel summaries
+- **📄 PDF Travel Guides**: Generate beautiful, professional PDF travel guides with all recommendations
 
 ## 🏗️ Architecture
 
@@ -59,6 +60,7 @@ The system uses a sophisticated multi-agent architecture:
 - **Data Validation**: Pydantic
 - **Search**: Google Search integration
 - **Model**: Gemini 2.0 Flash
+- **PDF Generation**: ReportLab
 
 ## 📋 Prerequisites
 
@@ -87,6 +89,7 @@ cp .env.example .env
 
 ## 💻 Usage
 
+### Basic Usage
 ```python
 from travel_agent.agent import root_agent
 
@@ -98,6 +101,29 @@ hotels = result["validated_hotels"]
 restaurants = result["validated_restaurants"] 
 activities = result["validated_activities"]
 summary = result["travel_summary"]
+```
+
+### Interactive Mode with PDF Generation
+```python
+from travel_agent.interactive_agent import run_interactive_travel_planning
+
+# Interactive planning with PDF option
+result = run_interactive_travel_planning("Tokyo, Japan")
+
+# User will be prompted to generate a PDF after seeing the summary
+if 'pdf_path' in result:
+    print(f"PDF guide saved to: {result['pdf_path']}")
+```
+
+### Command Line Interface
+```bash
+cd travel-agent-ai
+python -m travel_agent.interactive_agent
+```
+
+### Test PDF Generation
+```bash
+python test_pdf.py
 ```
 
 ## 📖 Example Output
@@ -118,6 +144,31 @@ The system provides structured recommendations like:
 - Must-see attractions with practical info
 - Cultural experiences and local insights
 - Outdoor activities and entertainment options
+
+## 📄 PDF Travel Guides
+
+The system can generate professional PDF travel guides with the following features:
+
+### PDF Contents
+- **Title Page**: Destination name and generation date
+- **Executive Summary**: Concise overview of top recommendations
+- **Hotel Section**: Categorized by budget, mid-range, and luxury with detailed descriptions
+- **Restaurant Section**: Local specialties and dining options by price range
+- **Activities Section**: Must-see attractions, cultural experiences, and local activities
+- **Practical Information**: Tips, booking info, and insider recommendations
+
+### PDF Features
+- **Professional Layout**: Clean, organized design with color-coded sections
+- **Comprehensive Details**: All search results structured and formatted
+- **Offline Access**: Perfect for travel without internet connection
+- **Shareable Format**: Easy to share with travel companions
+- **Print-Ready**: High-quality formatting for physical copies
+
+### Generating PDFs
+1. Run the interactive travel agent
+2. After receiving your travel summary, you'll be prompted: "Would you like to generate a comprehensive PDF travel guide?"
+3. Type 'y' to generate a beautifully formatted PDF
+4. PDF will be saved in the `travel_guides/` directory with timestamp
 
 ## 🔧 Configuration
 
