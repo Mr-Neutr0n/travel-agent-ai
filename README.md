@@ -10,6 +10,8 @@ An intelligent travel planning system built with Google's Agent Development Kit 
 - **Price-Categorized Recommendations**: Budget, mid-range, and luxury options for all categories
 - **Intelligent Summarization**: Creates concise, actionable travel summaries
 - **📄 PDF Travel Guides**: Generate beautiful, professional PDF travel guides with all recommendations
+- **Smart Fallback System**: Tries real AI agents first, falls back to destination-specific demo data
+- **Destination-Specific Content**: London, Barcelona, Paris get unique recommendations even in demo mode
 
 ## 🏗️ Architecture
 
@@ -65,8 +67,20 @@ The system uses a sophisticated multi-agent architecture:
 ## 📋 Prerequisites
 
 - Python 3.8+
-- Google ADK access
-- Environment variables configured (see `.env.example`)
+- Google ADK access (optional - system works in demo mode without API keys)
+- Environment variables configured (see `env.example`)
+
+### For Full AI Functionality
+To use real AI-powered research instead of demo mode:
+1. Set up Google ADK API keys
+2. Configure environment variables
+3. Ensure proper authentication
+
+### Demo Mode
+Without API keys, the system provides:
+- Destination-specific recommendations for major cities
+- Realistic hotel, restaurant, and activity suggestions
+- Full PDF generation functionality
 
 ## 🚀 Installation
 
@@ -81,10 +95,19 @@ cd travel-agent-ai
 pip install -r requirements.txt
 ```
 
-3. Set up environment variables:
+3. (Optional) Set up environment variables for full AI functionality:
 ```bash
-cp .env.example .env
-# Edit .env with your API keys
+cp env.example .env
+# Edit .env with your Google ADK API keys
+```
+
+4. Test the system:
+```bash
+# Try interactive mode (works without API keys)
+python -m travel_agent.interactive_agent
+
+# Test PDF generation
+python test_pdf.py
 ```
 
 ## 💻 Usage
@@ -121,29 +144,48 @@ cd travel-agent-ai
 python -m travel_agent.interactive_agent
 ```
 
-### Test PDF Generation
+### Quick Examples
 ```bash
+# Test PDF generation with sample data
 python test_pdf.py
+
+# Example usage patterns
+python example_usage.py
 ```
 
 ## 📖 Example Output
 
-The system provides structured recommendations like:
-
+### For London:
 **🏨 ACCOMMODATION HIGHLIGHTS**
-- Budget: Hostel recommendations with key amenities
-- Mid-range: Boutique hotels with location advantages
-- Luxury: Premium hotels with exceptional services
+- Budget: Premier Inn, YHA hostels (£60-100/night)
+- Mid-range: Boutique hotels in Covent Garden (£150-250/night)
+- Luxury: The Ritz, Savoy Hotel (£400+/night)
 
 **🍽️ DINING HIGHLIGHTS**
-- Local specialties and where to find them
-- Price-categorized restaurant recommendations
-- Signature dishes and unique experiences
+- Traditional: Fish & chips, Sunday roast, afternoon tea
+- Markets: Borough Market, Camden Market
+- Fine dining: Michelin-starred restaurants in Mayfair
 
 **🎯 TOP ACTIVITIES**
-- Must-see attractions with practical info
-- Cultural experiences and local insights
-- Outdoor activities and entertainment options
+- Must-see: Big Ben, Tower of London, British Museum
+- Cultural: West End shows, Tate Modern
+- Royal parks: Hyde Park, Regent's Park
+
+### For Barcelona:
+**🏨 ACCOMMODATION HIGHLIGHTS**
+- Budget: Generator Hostel, Sant Jordi hostels (€30-70/night)
+- Mid-range: Boutique hotels in Eixample (€100-180/night)
+- Luxury: Hotel Casa Sagnier, W Barcelona (€300+/night)
+
+**🍽️ DINING HIGHLIGHTS**
+- Tapas: Patatas bravas, jamón ibérico, pintxos
+- Paella: Traditional Valencian or seafood versions
+- Markets: La Boquería, Sant Antoni Market
+
+**🎯 TOP ACTIVITIES**
+- Gaudí architecture: Sagrada Família, Park Güell, Casa Batlló
+- Beaches: Barceloneta, Nova Icària
+- Gothic Quarter: Cathedral, Picasso Museum
 
 ## 📄 PDF Travel Guides
 
@@ -165,19 +207,40 @@ The system can generate professional PDF travel guides with the following featur
 - **Print-Ready**: High-quality formatting for physical copies
 
 ### Generating PDFs
-1. Run the interactive travel agent
-2. After receiving your travel summary, you'll be prompted: "Would you like to generate a comprehensive PDF travel guide?"
-3. Type 'y' to generate a beautifully formatted PDF
-4. PDF will be saved in the `travel_guides/` directory with timestamp
+1. Run the interactive travel agent: `python -m travel_agent.interactive_agent`
+2. Enter any destination (London, Barcelona, Paris, etc.)
+3. Review your personalized travel summary
+4. When prompted: "Generate PDF? (y/n)" - type 'y'
+5. PDF will be saved in the `travel_guides/` directory with timestamp
+
+### PDF Examples Generated
+- `london_Travel_Guide_20250728.pdf`
+- `barcelona_spain_Travel_Guide_20250728.pdf`
+- `paris_france_Travel_Guide_20250728.pdf`
 
 ## 🔧 Configuration
 
-The system can be customized by modifying agent instructions in `travel-agent/agent.py`:
-
+### Agent Configuration
+The system can be customized by modifying agent instructions in `travel_agent/agent.py`:
 - Search criteria and keywords
 - Output formatting preferences
 - Price range categorizations
 - Number of recommendations per category
+
+### Demo Mode Configuration
+Destination-specific content can be customized in `travel_agent/interactive_agent.py`:
+- Add new destinations to `_get_destination_specific_content()`
+- Customize hotel, restaurant, and activity recommendations
+- Update pricing and local tips
+
+### Environment Variables
+```bash
+# Google ADK Configuration (optional)
+GOOGLE_ADK_API_KEY=your_api_key_here
+
+# Optional: Disable OpenTelemetry
+OTEL_PYTHON_DISABLED=true
+```
 
 ## 🤝 Contributing
 
