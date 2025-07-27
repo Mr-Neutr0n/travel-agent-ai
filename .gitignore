@@ -138,3 +138,7 @@ dmypy.json
 
 # Windows
 Thumbs.db
+
+# Travel Agent AI Generated Files
+travel_guides/
+*.pdf
